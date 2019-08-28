@@ -10,9 +10,10 @@ public class PlayerHandler : MonoBehaviour
     public float maxHealth,maxMana,maxStamina;
     [Header("Value Variables")]    // Start is called before the first frame update
     public Slider healthBar, manaBar, staminaBar;
+    public GameObject PlayerObject;
     void Start()
     {
-        
+        PlayerObject = gameObject;
     }
 
     // Update is called once per frame
