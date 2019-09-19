@@ -11,6 +11,13 @@ public class PlayerHandler : MonoBehaviour
     [Header("Value Variables")]    // Start is called before the first frame update
     public Slider healthBar, manaBar, staminaBar;
     public GameObject PlayerObject;
+    [Header("Damage Effect Variables")]
+    public Image damageImage;
+    public Image deathImage;
+    public float flashSpeed = 5;
+    public Color flashColour = new Color(1, 0, 0, 0.2f);
+    public static bool isDead;
+    bool damaged;
     void Start()
     {
         PlayerObject = gameObject;

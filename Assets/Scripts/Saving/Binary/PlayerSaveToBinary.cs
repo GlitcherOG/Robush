@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerSaveToBinary : MonoBehaviour
+public class PlayerSaveToBinary
 {
     
     public static void SavePlayerData(PlayerHandler player)
@@ -14,12 +14,12 @@ public class PlayerSaveToBinary : MonoBehaviour
         string path = Application.persistentDataPath + "/" + "Random" + ".txt";
         FileStream stream = new FileStream(path, FileMode.Create);
         //What data to write to the file
-        PlayerDataToSave.data = new PlayerDataToSave(player);
+        PlayerToSave data = new PlayerToSave(player);
         formatter.Serialize(stream, data);
         stream.Close();
     }
 
-    public static PlayerDataToSave LoadData(PlayerHandler player)
+    public static PlayerToSave LoadData(PlayerHandler player)
     {
         string path = Application.persistentDataPath + "/" + "Random" + ".txt";
 
@@ -27,9 +27,10 @@ public class PlayerSaveToBinary : MonoBehaviour
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            PlayerDataToSave data = formatter.Deserialize(stream) as PlayerDataToSave;
+            PlayerToSave data = formatter.Deserialize(stream) as PlayerToSave;
             stream.Close();
             return data;
         }
+        return null;
     }
 }

@@ -14,7 +14,7 @@ public class PlayerToSave
     public float pX, pY, pZ;
     public float rX, rY, rZ, rW;
 
-    public PlayerDataToSave(PlayerHandler player)
+    public PlayerToSave(PlayerHandler player)
     {
         playerName = player.name;
         level = 0;
@@ -27,13 +27,14 @@ public class PlayerToSave
         maxMana = player.maxMana;
         maxStamina = player.maxStamina;
 
-        pX = player.transform.postion.x;
-        pY = player.transform.postion.y;
-        pZ = player.transform.postion.z;
+        pX = player.transform.position.x;
+        pY = player.transform.position.y;
+        pZ = player.transform.position.z;
 
         rX = player.transform.rotation.x;
         rY = player.transform.rotation.y;
         rZ = player.transform.rotation.z;
         rW = player.transform.rotation.w;
+        return;
     }
 }

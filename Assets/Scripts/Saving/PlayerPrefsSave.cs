@@ -17,7 +17,7 @@ public class PlayerPrefsSave : MonoBehaviour
             PlayerPrefs.SetInt("Loaded", 0);
             Save();
         }
-        else;
+        else
         {
             Load();
         }
@@ -25,12 +25,12 @@ public class PlayerPrefsSave : MonoBehaviour
 
     public void Save()
     {
-        PlayerSaveToBinary.SavePlayerData(Player);
+        PlayerSaveToBinary.SavePlayerData(player);
     }
 
     public void Load()
     {
-        PlayerDataToSave data = PlayerSaveToBinart.LoadData(player);
+        PlayerToSave data = PlayerSaveToBinary.LoadData(player);
         player.name = data.playerName;
 
         player.maxHealth = data.maxHealth;
@@ -39,10 +39,10 @@ public class PlayerPrefsSave : MonoBehaviour
 
         player.curHealth = data.curHealth;
         player.curMana = data.curMana;
-        player.curStamina = data.CurStamina;
+        player.curStamina = data.curStamina;
 
         player.transform.position = new Vector3(data.pX, data.pY, data.pZ);
-        player.transform.rotation = new Quaterion(data.rX, data.rY, data.rZ, data.rZ, data.rW);
+        player.transform.rotation = new Quaternion(data.rX, data.rY, data.rZ, data.rZ/*, data.rW*/);
     }
     /*public void Start()
     {
