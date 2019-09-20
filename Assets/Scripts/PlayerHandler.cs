@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerHandler : MonoBehaviour
 {
+    public string name = "Archy";
     [Header("Value Variables")]
-    public float curHealth,curMana,curStamina;
-    public float maxHealth,maxMana,maxStamina;
+    public float curHealth, curMana, curStamina;
+    public float maxHealth, maxMana, maxStamina;
+    [SerializeField] public Stats[] stats;
+    public float heatRate;
     [Header("Value Variables")]    // Start is called before the first frame update
     public Slider healthBar, manaBar, staminaBar;
     public GameObject PlayerObject;
@@ -18,14 +21,14 @@ public class PlayerHandler : MonoBehaviour
     public Color flashColour = new Color(1, 0, 0, 0.2f);
     public static bool isDead;
     bool damaged;
-    void Start()
-    {
-        PlayerObject = gameObject;
-    }
+    bool canHeal;
+    float healTimer;
+    [Header("Check Point")]
+    public Transform curCheckPoint;
 
-    // Update is called once per frame
     void Update()
     {
+        //Display Health
         if (healthBar.value != Mathf.Clamp01(curHealth / maxHealth))
         {
             curHealth = Mathf.Clamp(curHealth, 0, maxHealth);
@@ -38,8 +41,84 @@ public class PlayerHandler : MonoBehaviour
         }
         if (staminaBar.value != Mathf.Clamp01(curStamina / maxStamina))
         {
-            curStamina = Mathf.Clamp(curStamina, 0, maxStamina);
+            curStamina = Mathf.Clamp(curStamina, 0.0f, maxStamina);
             staminaBar.value = Mathf.Clamp01(curStamina / maxStamina);
         }
+        if (curHealth <= 0 && !isDead)
+        {
+            Death();
+        }
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            damaged = true;
+            curHealth -= 5;
+        }
+#endif
+        if (damaged && !isDead)
+        {
+            damageImage.color = flashColour;
+            damaged = false;
+        }
+        else
+        {
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+        }
+        if(!canHeal && curHealth < maxHealth && curHealth > 0)
+        {
+            healTimer += Time.deltaTime;
+            if (healTimer >= 5)
+            {
+                canHeal = true;
+            }
+        }
+    }
+    private void LateUpdate()
+    {
+        if(curHealth < maxHealth && curHealth > 0 && canHeal)
+        {
+            HealOverTime();
+        }
+    }
+    void Death()
+    {
+        isDead = true;
+        deathImage.gameObject.GetComponent<Animator>().SetTrigger("isDead");
+        Invoke("Revive", 3f);
+    }
+    void Revive()
+    {
+        isDead = false;
+        curHealth = maxHealth;
+        curMana = maxMana;
+        curStamina = maxStamina;
+
+        transform.position = curCheckPoint.position;
+        transform.rotation = curCheckPoint.rotation;
+
+        deathImage.gameObject.GetComponent<Animator>().SetTrigger("Revive");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("CheckPoint"))
+        {
+            curCheckPoint = other.transform;
+            heatRate = 5;
+            //saveAndLoad.Save();
+        }
+    }
+
+    void DamagePlayer(float damage)
+    {
+        damaged = true;
+        curHealth -= damage;
+        canHeal = false;
+        heatRate = 0;
+    }
+
+    public void HealOverTime()
+    {
+        curHealth += Time.deltaTime * (heatRate + stats[2].statValue);
     }
 }

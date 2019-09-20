@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour
             return;
         }
         state = AIState.Patrol;
+        agent.speed = moveSpeed;
         anim.SetBool("Walk", true);
         //Follow waypoints
         agent.destination = waypoints[curWaypoint].position;
@@ -81,6 +82,7 @@ public class Enemy : MonoBehaviour
             return;
         }
         state = AIState.Seek;
+        agent.speed = attackSpeed;
         anim.SetBool("Run", true);
         agent.destination = player.position;
     }
@@ -92,7 +94,6 @@ public class Enemy : MonoBehaviour
             return;
         }
         state = AIState.Attack;
-        agent.speed = attackSpeed;
         anim.SetBool("Attack", true);
         agent.destination = self.transform.position;
         Debug.Log("Attacking");
