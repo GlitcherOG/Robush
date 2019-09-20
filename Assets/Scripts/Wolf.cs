@@ -10,16 +10,16 @@ public class Wolf : Enemy
     public float curStanina;
     public float maxStamina;
 
-    public override void Attack()
-    {
-        if (Vector3.Distance(player.position, self.transform.position) > attackRange)
-        {
-            return;
-        }
-        Debug.Log("Action 1");
+    //public override void Attack()
+    //{
+    //    if (Vector3.Distance(player.position, self.transform.position) > attackRange)
+    //    {
+    //        return;
+    //    }
+    //    Debug.Log("Action 1");
 
-        base.Attack();
+    //    base.Attack();
 
-        Debug.Log("Action2");
-    }
+    //    Debug.Log("Action2");
+    //}
 }

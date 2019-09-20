@@ -44,8 +44,6 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Walk", false);
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
-        anim.SetBool("Die", false);
-
         Patrol();
         Seek();
         Attack();
@@ -53,11 +51,11 @@ public class Enemy : MonoBehaviour
     public void Patrol()
     {
         //If there are no way points stop
-        if(waypoints.Length == 0 || sightRange < Vector3.Distance(player.position, self.transform.position))
+        if(waypoints.Length == 0 || sightRange > Vector3.Distance(player.position, self.transform.position))
         {
             return;
         }
-        state = AIState.Seek;
+        state = AIState.Patrol;
         anim.SetBool("Walk", true);
         //Follow waypoints
         agent.destination = waypoints[curWaypoint].position;
@@ -76,12 +74,12 @@ public class Enemy : MonoBehaviour
 
     public void Seek()
     {
-        if(Vector3.Distance(player.position, self.transform.position) > sightRange)
+        if(Vector3.Distance(player.position, self.transform.position) > sightRange || Vector3.Distance(player.position, self.transform.position) < attackRange)
         {
             return;
         }
         state = AIState.Seek;
-        anim.SetBool("Run", false);
+        anim.SetBool("Run", true);
         agent.destination = player.position;
     }
 
@@ -92,13 +90,15 @@ public class Enemy : MonoBehaviour
             return;
         }
         state = AIState.Attack;
-        anim.SetBool("Attack", false);
+        agent.speed = attackSpeed;
+        anim.SetBool("Attack", true);
+        agent.destination = self.transform.position;
         Debug.Log("Attacking");
     }
 
     public void Die()
     {
         state = AIState.Die;
-        anim.SetBool("Die", false);
+        anim.SetTrigger("Die");
     }
 }
