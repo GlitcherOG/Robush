@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     [Header("BaseStats")]
     public AIState state;
     public float curHealth, maxHealth, moveSpeed, attackRange, attackSpeed, sightRange;
+    public float difficulty = 1;
+    public float baseDamage = 1;
     [Space(5)]
     [Header("Base References")]
     public GameObject self;
