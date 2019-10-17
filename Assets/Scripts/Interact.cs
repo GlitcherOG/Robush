@@ -23,6 +23,15 @@ public class Interact : MonoBehaviour
                 switch (hitiInfo.collider.tag)
                 {
                     case "NPC":
+                        Dialogue dlg = hitiInfo.transform.GetComponent<Dialogue>();
+                        if(dlg != null)
+                        {
+                            dlg.showDlg = true;
+
+                            Time.timeScale = 0;
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                        }
                         Debug.Log("Talk to Npc");
                     break;
                     case "Item":

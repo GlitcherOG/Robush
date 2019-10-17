@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
         state = AIState.Attack;
         anim.SetBool("Attack", true);
         agent.destination = self.transform.position;
-        Debug.Log("Attacking");
+        //Debug.Log("Attacking");
     }
 
     public void Die()
