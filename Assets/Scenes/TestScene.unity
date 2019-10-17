@@ -1021,7 +1021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -157.19998, y: -62.5}
+  m_AnchoredPosition: {x: -157.19998, y: 276}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &230103678
@@ -6709,6 +6709,8 @@ GameObject:
   - component: {fileID: 1635755120}
   - component: {fileID: 1635755119}
   - component: {fileID: 1635755118}
+  - component: {fileID: 1635755122}
+  - component: {fileID: 1635755123}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -6783,13 +6785,53 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635755117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.36, y: 1, z: 7.23}
+  m_LocalPosition: {x: 117, y: 1, z: 213.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 419942713}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1635755122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635755117}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b33210096f65f545a46c11c7eb07d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text:
+  - Hello
+  - 2
+  - 3
+  - 4
+  index: 0
+  showDlg: 1
+--- !u!114 &1635755123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635755117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6596430d94322478b9376a5c65104e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text:
+  - Hello Bob
+  - Wanna hear a story?
+  - Ma home dog is dead
+  - Blah Blah Blah Blah
+  - Cya loser
+  index: 0
+  option: 1
+  showDlg: 0
 --- !u!4 &1641707298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4937534756502958, guid: bef6efe76627b94479b2612d64f94653,
@@ -7994,6 +8036,7 @@ GameObject:
   - component: {fileID: 1975964272}
   - component: {fileID: 1975964278}
   - component: {fileID: 1975964279}
+  - component: {fileID: 1975964280}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -8139,12 +8182,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d8be220c9da6444a773888e6e4af9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pName: Archy
   curHealth: 100
   curMana: 100
   curStamina: 100
   maxHealth: 100
   maxMana: 100
   maxStamina: 100
+  stats:
+  - name: Strength
+    value: 1
+  - name: 'Dexterity '
+    value: 1
+  - name: Constitution
+    value: 1
+  - name: Intelligence
+    value: 1
+  - name: Wisdom
+    value: 1
+  - name: Charisma
+    value: 1
+  heatRate: 0
   healthBar: {fileID: 1733560665}
   manaBar: {fileID: 1277169447}
   staminaBar: {fileID: 1728546063}
@@ -8153,6 +8211,20 @@ MonoBehaviour:
   deathImage: {fileID: 0}
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.2}
+  curCheckPoint: {fileID: 0}
+--- !u!114 &1975964280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975964271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e43612d43c8a0e41b5a00f8f74877a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scr: {x: 0, y: 0}
 --- !u!1 &2009093533
 GameObject:
   m_ObjectHideFlags: 0
@@ -8537,7 +8609,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -157.2, y: -34}
+  m_AnchoredPosition: {x: -157.2, y: 304.49997}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2051446654
@@ -8557,7 +8629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2051446655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8885,7 +8957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -157.19998, y: -90.9}
+  m_AnchoredPosition: {x: -157.19998, y: 247.59998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &2137146872

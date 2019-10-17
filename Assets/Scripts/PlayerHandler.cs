@@ -5,11 +5,18 @@ using UnityEngine.UI;
 
 public class PlayerHandler : MonoBehaviour
 {
-    public string name = "Archy";
+    [System.Serializable]
+    public struct PlayerStats
+    {
+        public string name;
+        public int value;
+    }
+    public string pName = "Archy";
     [Header("Value Variables")]
     public float curHealth, curMana, curStamina;
     public float maxHealth, maxMana, maxStamina;
-    [SerializeField] public Stats[] stats;
+    public PlayerStats[] stats;
+    //[SerializeField] public Stats[] stats;
     public float heatRate;
     [Header("Value Variables")]    // Start is called before the first frame update
     public Slider healthBar, manaBar, staminaBar;
@@ -119,6 +126,6 @@ public class PlayerHandler : MonoBehaviour
 
     public void HealOverTime()
     {
-        curHealth += Time.deltaTime * (heatRate + stats[2].statValue);
+        curHealth += Time.deltaTime * (heatRate /*+ stats[2].statValue*/);
     }
 }
