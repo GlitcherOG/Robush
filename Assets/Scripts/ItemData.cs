@@ -78,7 +78,7 @@ public static class ItemData
                 heal = 0;
                 iconName = "";
                 meshName = "";
-                type = ItemTypes.Misc;
+                type = ItemTypes.Weapon;
                 break;
             case 101:
                 name = "Bow";
@@ -90,7 +90,7 @@ public static class ItemData
                 heal = 0;
                 iconName = "";
                 meshName = "";
-                type = ItemTypes.Misc;
+                type = ItemTypes.Weapon;
                 break;
             case 102:
                 name = "Dagger";
@@ -102,7 +102,7 @@ public static class ItemData
                 heal = 0;
                 iconName = "";
                 meshName = "";
-                type = ItemTypes.Misc;
+                type = ItemTypes.Weapon;
                 break;
             #endregion
             #region Potion 200-299

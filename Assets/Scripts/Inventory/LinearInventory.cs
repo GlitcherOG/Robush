@@ -77,6 +77,10 @@ public class LinearInventory : MonoBehaviour
         {
             inv.Add(ItemData.CreateItem(Random.Range(0, 3)));
         }
+       if(Input.GetKey(KeyCode.KeypadPlus))
+        {
+            inv[10].Amount = 52;
+        }
     }
 
     private void OnGUI()
@@ -84,22 +88,140 @@ public class LinearInventory : MonoBehaviour
         if(showInv)
         {
             scr = new Vector2(Screen.width / 16, Screen.height / 9);
-            for (int i = 0; i < inv.Count; i++)
-            {
-
-                if(GUI.Button(new Rect(0.5f*scr.x,0.25f*scr.y + i *(0.25f* scr.y),3f*scr.x,0.25f*scr.y),inv[i].Name))
-                {
-                    selectedItem = inv[i];
-                }
-            }
+            DisplayInv();
             if(selectedItem == null)
             {
                 return;
             }
             else
             {
-                GUI.Box(new Rect(6.5f * scr.x, 3 * scr.y, 3 * scr.x, scr.y * 3), selectedItem.IconName);
+                UseItem();
             }
+        }
+    }
+
+    void DisplayInv()
+    {
+        if (!(sortType == "All" || sortType == ""))
+        {
+
+        }
+        else
+        {
+            if (inv.Count <= 34)
+            {
+                for (int i = 0; i < inv.Count; i++)
+                {
+                    if (GUI.Button(new Rect(0.5f * scr.x, 0.25f * scr.y + i * (0.25f * scr.y), 3f * scr.x, 0.25f * scr.y), inv[i].Name))
+                    {
+                        selectedItem = inv[i];
+                    }
+                }
+            }
+            else//We have more items than screen space
+            {
+                //our move position of our scroll window
+                //The start of our scroll view
+                //Our position and size of our window
+                //Our current position in the scroll view
+                //viewable area
+                //Can we see our horizontal bar?
+                //Can we see our vertical bar?
+                scrollPos = GUI.BeginScrollView(new Rect(0, 0.25f * scr.y, 3.75f * scr.x, 8.5f * scr.y), scrollPos, new Rect(new Rect(0, 0, 0, inv.Count * (0.25f * scr.y))), false, true);
+                #region Scrollable Space
+                for (int i = 0; i < inv.Count; i++)
+                {
+                    if(GUI.Button(new Rect(0.5f * scr.x, i * (0.25f * scr.y), 3 * scr.x, 0.25f* scr.y), inv[i].Name))
+                    {
+                        selectedItem = inv[i];
+                    }
+                }
+                #endregion
+                GUI.EndScrollView();
+
+            }
+        }
+    }
+    void UseItem()
+    {
+        GUI.Box(new Rect(6.5f * scr.x, 2.4f * scr.y, 3 * scr.x, scr.y * 0.25f), selectedItem.Name);
+        GUI.Box(new Rect(6.5f * scr.x, 2.7f * scr.y, 3 * scr.x, scr.y * 3), selectedItem.IconName);
+        GUI.Box(new Rect(6.5f * scr.x, 5.8f * scr.y, 3 * scr.x, scr.y * 1.5f), selectedItem.Description);
+        switch (selectedItem.ItemType)
+        {
+            case ItemTypes.Armour:
+                if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Wear"))
+                {
+
+                }
+                break;
+            case ItemTypes.Weapon:
+                if (equippedItems[1].equippedItem == null || selectedItem.Name != equippedItems[1].equippedItem.name)
+                {
+                    if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Equip"))
+                    {
+
+                    }
+                }
+                break;
+            case ItemTypes.Potion:
+                if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Drink"))
+                {
+
+                }
+                break;
+            case ItemTypes.Food:
+                if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Eat"))
+                {
+
+                }
+                break;
+            case ItemTypes.Ingredient:
+                if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Use"))
+                {
+
+                }
+                break;
+            case ItemTypes.Craftable:
+                if (GUI.Button(new Rect(6.5f * scr.x, 7.4f * scr.y, 1.75f * scr.x, 0.25f * scr.y), "Use"))
+                {
+
+                }
+                break;
+
+            default:
+                break;
+        }
+        if (GUI.Button(new Rect(8.5f * scr.x, 7.4f * scr.y, 1f * scr.x, 0.25f * scr.y), "Discard"))
+        {
+            for (int i = 0; i < equippedItems.Length; i++)
+            {
+                if(equippedItems[i].equippedItem != null && selectedItem.Name == equippedItems[i].equippedItem.name)
+                {
+                    Destroy(equippedItems[i].equippedItem);
+                }
+            }
+            GameObject itemToDrop = Instantiate(selectedItem.MeshName, dropLocation.position, Quaternion.identity);
+            itemToDrop.name = selectedItem.Name;
+            itemToDrop.AddComponent<Rigidbody>().useGravity = true;
+
+            if(selectedItem.Amount > 1)
+            {
+                selectedItem.Amount--;
+            }
+            else
+            {
+                inv.Remove(selectedItem);
+                selectedItem = null;
+                return;
+            }
+            //Check if the item is equipped
+            //If so destroy from scene
+            //Spawn item at droplocation
+            //Apply gravity and make sure its named correctly
+            //is the amount >1
+                //If so reduce from list
+                //Else remove from list
         }
     }
 }
