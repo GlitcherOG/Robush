@@ -13,7 +13,7 @@ public class PlayerPrefsSave : MonoBehaviour
         if (!PlayerPrefs.HasKey("Loaded"))
         {
             PlayerPrefs.DeleteAll();
-            Load();
+            //Load();
             PlayerPrefs.SetInt("Loaded", 0);
             Save();
         }

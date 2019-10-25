@@ -24,7 +24,7 @@ public class Interact : MonoBehaviour
                 {
                     case "NPC":
                         Dialogue dlg = hitiInfo.transform.GetComponent<Dialogue>();
-                        if(dlg != null)
+                        if (dlg != null)
                         {
                             dlg.showDlg = true;
 
@@ -33,10 +33,39 @@ public class Interact : MonoBehaviour
                             Cursor.lockState = CursorLockMode.None;
                         }
                         Debug.Log("Talk to Npc");
-                    break;
+                        break;
                     case "Item":
                         Debug.Log("Pick up Item");
-                    break;
+                        ItemHandler handler = hitiInfo.transform.GetComponent<ItemHandler>();
+                        if (handler != null)
+                        {
+                            handler.OnCollection();
+                        }
+                        break;
+                    case "Chest":
+                        Debug.Log("Open the chest");
+                        Chest chest = hitiInfo.transform.GetComponent<Chest>();
+                        if(chest != null)
+                        {
+                            chest.showChest = true;
+                            LinearInventory.showInv = true;
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                            Time.timeScale = 0;
+                        }
+                        break;
+                    case "Shop":
+                        Debug.Log("Open the chest");
+                        Shop shop = hitiInfo.transform.GetComponent<Shop>();
+                        if (shop != null)
+                        {
+                            shop.showShop = true;
+                            LinearInventory.showInv = true;
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                            Time.timeScale = 0;
+                        }
+                        break;
                 }
             }
         }

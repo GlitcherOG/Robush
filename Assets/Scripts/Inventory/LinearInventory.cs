@@ -10,7 +10,7 @@ public class LinearInventory : MonoBehaviour
     public Item selectedItem;
     public Vector2 scr;
 
-    public int money;
+    public static int money;
     public Vector2 scrollPos;
 
     public string sortType = "All";
@@ -25,10 +25,15 @@ public class LinearInventory : MonoBehaviour
         public GameObject equippedItem;
     };
     public EquippedItems[] equippedItems;
+    public bool invFilterOptions;
+    [Header("Art")]
+    public GUISkin invSkin;
+    public GUIStyle titleStyle;
     #endregion
 
     private void Start()
     {
+        money += 100;
         inv.Add(ItemData.CreateItem(0));
         inv.Add(ItemData.CreateItem(1));
         inv.Add(ItemData.CreateItem(3));
@@ -88,8 +93,14 @@ public class LinearInventory : MonoBehaviour
         if(showInv)
         {
             scr = new Vector2(Screen.width / 16, Screen.height / 9);
+            GUI.skin = invSkin;
+            if (GUI.Button(new Rect(4f * scr.x, 6.75f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Filter"))
+            {
+                invFilterOptions = !invFilterOptions;
+            }
             DisplayInv();
-            if(selectedItem == null)
+            GUI.skin = null;
+            if (selectedItem == null)
             {
                 return;
             }
@@ -102,9 +113,82 @@ public class LinearInventory : MonoBehaviour
 
     void DisplayInv()
     {
+        if (invFilterOptions)
+        {
+            if (GUI.Button(new Rect(4f * scr.x, 4.75f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "All"))
+            {
+                sortType = "All";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 5f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Armour"))
+            {
+                sortType = "Armour";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 5.25f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Weapon"))
+            {
+                sortType = "Weapon";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 5.5f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Potion"))
+            {
+                sortType = "Potion";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 5.75f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Food"))
+            {
+                sortType = "Food";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 6f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Ingredient"))
+            {
+                sortType = "Ingredient";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 6.25f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Craftable"))
+            {
+                sortType = "Craftable";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 6.5f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Quest"))
+            {
+                sortType = "Quest";
+            }
+            if (GUI.Button(new Rect(4f * scr.x, 6.75f * scr.y, 1.5f * scr.x, 0.25f * scr.y), "Misc"))
+            {
+                sortType = "Misc";
+            }
+        }
         if (!(sortType == "All" || sortType == ""))
         {
-
+            ItemTypes type = (ItemTypes)
+                System.Enum.Parse(typeof(ItemTypes), sortType);
+            int a = 0; //The amount of this type
+            int s = 0; //New slot position of the item
+            if (a <= 34)
+            {
+                for (int i = 0; i < a; i++)
+                {
+                    if (inv[i].ItemType == type)
+                    {
+                        if (GUI.Button(new Rect(0.5f * scr.x, 0.25f * scr.y + i * (0.25f * scr.y), 3f * scr.x, 0.25f * scr.y), inv[i].Name))
+                        {
+                            selectedItem = inv[i];
+                        }
+                        s++;
+                    }
+                }
+            }
+            else//We have more items than screen space
+            {
+                scrollPos = GUI.BeginScrollView(new Rect(0, 0.25f * scr.y, 3.75f * scr.x, 8.5f * scr.y), scrollPos, new Rect(new Rect(0, 0, 0, inv.Count * (0.25f * scr.y))), false, true);
+                #region Scrollable Space
+                for (int i = 0; i < inv.Count; i++)
+                {
+                    if (inv[i].ItemType == type)
+                    {
+                        if (GUI.Button(new Rect(0.5f * scr.x, i * (0.25f * scr.y), 3 * scr.x, 0.25f * scr.y), inv[i].Name))
+                        {
+                            selectedItem = inv[i];
+                        }
+                        s++;
+                    }
+                }
+                #endregion
+            }
         }
         else
         {
@@ -131,20 +215,20 @@ public class LinearInventory : MonoBehaviour
                 #region Scrollable Space
                 for (int i = 0; i < inv.Count; i++)
                 {
-                    if(GUI.Button(new Rect(0.5f * scr.x, i * (0.25f * scr.y), 3 * scr.x, 0.25f* scr.y), inv[i].Name))
-                    {
-                        selectedItem = inv[i];
-                    }
+                        if (GUI.Button(new Rect(0.5f * scr.x, i * (0.25f * scr.y), 3 * scr.x, 0.25f * scr.y), inv[i].Name))
+                        {
+                            selectedItem = inv[i];
+                        }
                 }
                 #endregion
                 GUI.EndScrollView();
-
             }
         }
     }
     void UseItem()
     {
         GUI.Box(new Rect(6.5f * scr.x, 2.4f * scr.y, 3 * scr.x, scr.y * 0.25f), selectedItem.Name);
+        GUI.skin = invSkin;
         GUI.Box(new Rect(6.5f * scr.x, 2.7f * scr.y, 3 * scr.x, scr.y * 3), selectedItem.IconName);
         GUI.Box(new Rect(6.5f * scr.x, 5.8f * scr.y, 3 * scr.x, scr.y * 1.5f), selectedItem.Description);
         switch (selectedItem.ItemType)
