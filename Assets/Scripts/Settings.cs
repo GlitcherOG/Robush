@@ -52,6 +52,12 @@ public class Settings : MonoBehaviour
         }
     }
 
+    public void Open()
+    {
+        SettingsOpen = !SettingsOpen;
+        Panel.SetActive(SettingsOpen);
+    }
+
     public void SetVolume(float volume)
     {
         Debug.Log(volume);
