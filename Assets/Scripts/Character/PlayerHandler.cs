@@ -11,10 +11,11 @@ public class PlayerHandler : MonoBehaviour
         public string name;
         public int value;
     }
-    public string pName = "Archy";
+
     [Header("Value Variables")]
     public float curHealth, curMana, curStamina;
     public float maxHealth, maxMana, maxStamina;
+ 
     public PlayerStats[] stats;
     //[SerializeField] public Stats[] stats;
     public float heatRate;
@@ -32,52 +33,63 @@ public class PlayerHandler : MonoBehaviour
     float healTimer;
     [Header("Check Point")]
     public Transform curCheckPoint;
+    [Header("Custom")]
+    public bool custom;
+    public int skinIndex, eyesIndex, mouthIndex, hairIndex, clothesIndex, armourIndex;
+    public int saveSlot;
+    public CharacterClass characterClass;
+    public string characterName;
+    public string firstCheckPointName = "First CheckPoint";
 
     void Update()
     {
-        //Display Health
-        if (healthBar.value != Mathf.Clamp01(curHealth / maxHealth))
+        if (!custom)
         {
-            curHealth = Mathf.Clamp(curHealth, 0, maxHealth);
-            healthBar.value = Mathf.Clamp01(curHealth / maxHealth);
-        }
-        if (manaBar.value != Mathf.Clamp01(curMana / maxMana))
-        {
-            curMana = Mathf.Clamp(curMana, 0, maxMana);
-            manaBar.value = Mathf.Clamp01(curMana / maxMana);
-        }
-        if (staminaBar.value != Mathf.Clamp01(curStamina / maxStamina))
-        {
-            curStamina = Mathf.Clamp(curStamina, 0.0f, maxStamina);
-            staminaBar.value = Mathf.Clamp01(curStamina / maxStamina);
-        }
-        if (curHealth <= 0 && !isDead)
-        {
-            Death();
-        }
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            damaged = true;
-            curHealth -= 5;
-        }
-#endif
-        if (damaged && !isDead)
-        {
-            damageImage.color = flashColour;
-            damaged = false;
-        }
-        else
-        {
-            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
-        }
-        if(!canHeal && curHealth < maxHealth && curHealth > 0)
-        {
-            healTimer += Time.deltaTime;
-            if (healTimer >= 5)
+            //Display Health
+            if (healthBar.value != Mathf.Clamp01(curHealth / maxHealth))
             {
-                canHeal = true;
+                curHealth = Mathf.Clamp(curHealth, 0, maxHealth);
+                healthBar.value = Mathf.Clamp01(curHealth / maxHealth);
             }
+            if (manaBar.value != Mathf.Clamp01(curMana / maxMana))
+            {
+                curMana = Mathf.Clamp(curMana, 0, maxMana);
+                manaBar.value = Mathf.Clamp01(curMana / maxMana);
+            }
+            if (staminaBar.value != Mathf.Clamp01(curStamina / maxStamina))
+            {
+                curStamina = Mathf.Clamp(curStamina, 0.0f, maxStamina);
+                staminaBar.value = Mathf.Clamp01(curStamina / maxStamina);
+            }
+            if (curHealth <= 0 && !isDead)
+            {
+                Death();
+            }
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                damaged = true;
+                curHealth -= 5;
+            }
+#endif
+            if (damaged && !isDead)
+            {
+                damageImage.color = flashColour;
+                damaged = false;
+            }
+            else
+            {
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
+            if (!canHeal && curHealth < maxHealth && curHealth > 0)
+            {
+                healTimer += Time.deltaTime;
+                if (healTimer >= 5)
+                {
+                    canHeal = true;
+                }
+            }
+
         }
     }
     private void LateUpdate()

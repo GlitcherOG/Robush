@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Customistaion : MonoBehaviour
@@ -27,51 +28,47 @@ public class Customistaion : MonoBehaviour
     public Stats[] playerStats = new Stats[6];
     public CharacterClass charClass;
     public Vector2 scr;
-    public void Save()
-    {
-
-    }
     public void SetTexture(string type, int dir)
     {
         int index = 0, max = 0, matIndex = 0;
-        switch(type)
-        { 
-        case "Skin":
-            index = skinIndex;
-            max = skinMax;
-            matIndex = 1;
-            textures = skin.ToArray();
-            break;
-        case "Eyes":
-            index = eyesIndex;
-            max = eyesMax;
-            matIndex = 2;
-            textures = eyes.ToArray();
-            break;
-        case "Mouth":
-            index = mouthIndex;
-            max = mouthMax;
-            matIndex = 3;
-            textures = mouth.ToArray();
-            break;
-        case "Hair":
-            index = hairIndex;
-            max = hairMax;
-            matIndex = 4;
-            textures = hair.ToArray();
-            break;
-        case "Clothes":
-            index = clothesIndex;
-            max = clothesMax;
-            matIndex = 5;
-            textures = clothes.ToArray();
-            break;
-        case "Armour":
-            index = armourIndex;
-            max = armourMax;
-            matIndex = 6;
-            textures = armour.ToArray();
-            break;
+        switch (type)
+        {
+            case "Skin":
+                index = skinIndex;
+                max = skinMax;
+                matIndex = 1;
+                textures = skin.ToArray();
+                break;
+            case "Eyes":
+                index = eyesIndex;
+                max = eyesMax;
+                matIndex = 2;
+                textures = eyes.ToArray();
+                break;
+            case "Mouth":
+                index = mouthIndex;
+                max = mouthMax;
+                matIndex = 3;
+                textures = mouth.ToArray();
+                break;
+            case "Hair":
+                index = hairIndex;
+                max = hairMax;
+                matIndex = 4;
+                textures = hair.ToArray();
+                break;
+            case "Clothes":
+                index = clothesIndex;
+                max = clothesMax;
+                matIndex = 5;
+                textures = clothes.ToArray();
+                break;
+            case "Armour":
+                index = armourIndex;
+                max = armourMax;
+                matIndex = 6;
+                textures = armour.ToArray();
+                break;
         }
         index += dir;
         if (index < 0)
@@ -107,11 +104,36 @@ public class Customistaion : MonoBehaviour
                 break;
         }
     }
+    public void Load()
+    {
+        Material[] mat = characterRenderer.materials;
+        textures = skin.ToArray();
+        mat[1].mainTexture = textures[skinIndex];
+        textures = eyes.ToArray();
+        mat[2].mainTexture = textures[eyesIndex];
+        textures = mouth.ToArray();
+        mat[3].mainTexture = textures[mouthIndex];
+        textures = hair.ToArray();
+        mat[4].mainTexture = textures[hairIndex];
+        textures = clothes.ToArray();
+        mat[5].mainTexture = textures[clothesIndex];
+        textures = armour.ToArray();
+        mat[6].mainTexture = textures[armourIndex];
+        characterRenderer.materials = mat;
+    }
     public void OnGUI()
     {
         scr = new Vector2(Screen.width / 16, Screen.height / 9);
         DisplayCustom();
         DisplayStats();
+        if (GUI.Button(new Rect(scr.x * 6, scr.y, scr.x * 1.5f, scr.y * 0.5f), "Save"))
+        {
+
+        }
+        if (GUI.Button(new Rect(scr.x * 8, scr.y, scr.x * 1.5f, scr.y * 0.5f), "Load"))
+        {
+
+        }
     }
     public void DisplayCustom()
     {

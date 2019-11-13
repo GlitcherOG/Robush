@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrefsSave : MonoBehaviour
+public class PlayerSaveAndLoad : MonoBehaviour
 {
     public PlayerHandler player;
 
@@ -13,25 +13,39 @@ public class PlayerPrefsSave : MonoBehaviour
         if (!PlayerPrefs.HasKey("Loaded"))
         {
             PlayerPrefs.DeleteAll();
-            //Load();
+            FirstLoad();
             PlayerPrefs.SetInt("Loaded", 0);
             Save();
         }
         else
         {
-            Load();
+            //Load();
         }
+    }
+    void FirstLoad()
+    {
+        player.maxHealth = 100;
+        player.maxMana = 100;
+        player.maxStamina = 100;
+        player.curCheckPoint = GameObject.Find("First CheckPoint").GetComponent<Transform>();
+
+        player.curHealth = player.maxHealth;
+        player.curMana = player.maxMana;
+        player.curStamina = player.maxStamina;
+
+        player.transform.position = new Vector3(124.5f, 2, 228.5f);
+        player.transform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
     public void Save()
     {
-        PlayerSaveToBinary.SavePlayerData(player);
+        PlayerBinary.SavePlayerData(player);
     }
 
     public void Load()
     {
-        PlayerToSave data = PlayerSaveToBinary.LoadData(player);
-        player.name = data.playerName;
+        PlayerData data = PlayerBinary.LoadData();
+        //player.name = data.playerName;
 
         player.maxHealth = data.maxHealth;
         player.maxMana = data.maxMana;
@@ -42,7 +56,15 @@ public class PlayerPrefsSave : MonoBehaviour
         player.curStamina = data.curStamina;
 
         player.transform.position = new Vector3(data.pX, data.pY, data.pZ);
-        player.transform.rotation = new Quaternion(data.rX, data.rY, data.rZ, data.rZ/*, data.rW*/);
+        player.transform.rotation = new Quaternion(data.rX, data.rY, data.rZ, data.rW/*, data.rW*/);
+        player.skinIndex = data.skinIndex;
+        player.eyesIndex = data.eyesIndex;
+        player.mouthIndex = data.mouthIndex;
+        player.hairIndex = data.hairIndex;
+        player.clothesIndex = data.clothesIndex;
+        player.armourIndex = data.armourIndex;
+
+
     }
     /*public void Start()
     {
